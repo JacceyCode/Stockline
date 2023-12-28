@@ -10,12 +10,8 @@ import {
   Gesture,
   Directions,
 } from "react-native-gesture-handler";
-import Animated, {
-  SlideInLeft,
-  SlideInRight,
-  SlideOutLeft,
-  SlideOutRight,
-} from "react-native-reanimated";
+import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
+import ImageSlide from "../components/image";
 
 export default function OnboardingScreen() {
   const [screenIndex, setScreenIndex] = useState(0);
@@ -55,23 +51,23 @@ export default function OnboardingScreen() {
 
         <GestureDetector gesture={swipe}>
           <View key={screenIndex} style={styles.screen}>
-            <Animated.Text
-              entering={SlideInLeft}
-              exiting={SlideOutRight}
-              style={styles.title}
-            >
-              {data.title}
-            </Animated.Text>
+            <ImageSlide />
 
-            <Animated.Text
+            <Animated.View
               entering={SlideInLeft}
               exiting={SlideOutRight}
-              style={styles.description}
+              style={styles.textContainer}
             >
-              {data.description}
-              {data.amount && <Text style={styles.amount}> {data.amount}</Text>}
-              .
-            </Animated.Text>
+              <Text style={styles.title}>{data.title}</Text>
+
+              <Text style={styles.description}>
+                {data.description}
+                {data.amount && (
+                  <Text style={styles.amount}> {data.amount}</Text>
+                )}
+                .
+              </Text>
+            </Animated.View>
           </View>
         </GestureDetector>
 
@@ -90,7 +86,7 @@ export default function OnboardingScreen() {
           ))}
         </View>
 
-        <View style={styles.buttons}>
+        <View style={styles.buttonContainer}>
           <Buttons title="Log In" path="login" primary={true} />
           <Buttons title="Get Started" path="signup" primary={false} />
         </View>
@@ -107,15 +103,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   skip: {
-    // flex: 1,
     color: Colors.primary50,
     fontFamily: "SFMedium",
     fontSize: 16,
     alignSelf: "flex-end",
-    paddingTop: 30,
+    marginTop: 30,
   },
   screen: {
     flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  textContainer: {
     justifyContent: "center",
     alignItems: "center",
   },
@@ -128,16 +128,17 @@ const styles = StyleSheet.create({
   description: {
     textAlign: "center",
     color: Colors.gray600,
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: "SFMedium",
   },
   amount: {
     color: Colors.primary50,
   },
-  buttons: {
+  buttonContainer: {
     flexDirection: "row",
     gap: 16,
     width: "100%",
+    marginBottom: 20,
   },
 
   // steps

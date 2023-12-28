@@ -9,4 +9,5 @@ export const Colors = {
   gray800: "#2D3748",
   black: "#15141F",
   white: "#FFFFFF",
+  ellipse1: "#ACFFFA",
 };
