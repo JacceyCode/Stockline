@@ -10,4 +10,10 @@ export const Colors = {
   black: "#15141F",
   white: "#FFFFFF",
   ellipse1: "#ACFFFA",
+  ellipse2: "#FF6B6B",
+  ellipse3: "#3EAEFF",
+  ellipse4: "#71E6A3",
+  ellipse5: "#FFA23A",
+  dot1: "#2DEBE1",
+  dot2: "#95D2FF",
 };

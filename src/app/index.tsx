@@ -11,7 +11,8 @@ import {
   Directions,
 } from "react-native-gesture-handler";
 import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
-import ImageSlide from "../components/image";
+import ImageSlider1 from "../components/imageSlider1";
+import ImageSlider2 from "../components/imageSlider2";
 
 export default function OnboardingScreen() {
   const [screenIndex, setScreenIndex] = useState(0);
@@ -51,7 +52,9 @@ export default function OnboardingScreen() {
 
         <GestureDetector gesture={swipe}>
           <View key={screenIndex} style={styles.screen}>
-            <ImageSlide />
+            {isFirstScreen && <ImageSlider1 />}
+
+            {isLastSCreen && <ImageSlider2 />}
 
             <Animated.View
               entering={SlideInLeft}
@@ -113,6 +116,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    gap: 40,
   },
 
   textContainer: {

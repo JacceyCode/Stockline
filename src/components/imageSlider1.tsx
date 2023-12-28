@@ -2,7 +2,7 @@ import { Dimensions, Image, StyleSheet, Text, View } from "react-native";
 import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 import { Colors } from "../constants/colors";
 
-const ImageSlide = () => {
+const ImageSlider1 = () => {
   return (
     <Animated.View
       entering={SlideInLeft}
@@ -11,6 +11,12 @@ const ImageSlide = () => {
     >
       {/* /////Elliptical dot///// */}
       <View style={styles.dot1}></View>
+      <View style={styles.dot2}></View>
+      <View style={styles.dot3}></View>
+      <View style={styles.dot4}></View>
+      <View style={styles.dot5}></View>
+      <View style={styles.dot6}></View>
+      <View style={styles.dot7}></View>
 
       {/* /////Images///// */}
       <Image
@@ -28,7 +34,7 @@ const ImageSlide = () => {
 
       <View style={styles.imageContainer2}>
         <Image
-          style={styles.passport}
+          style={styles.passport1}
           source={require("../../assets/images/avatar-2.png")}
         />
         <Text style={styles.location}>Asia</Text>
@@ -36,7 +42,7 @@ const ImageSlide = () => {
 
       <View style={styles.imageContainer3}>
         <Image
-          style={styles.passport}
+          style={styles.passport2}
           source={require("../../assets/images/avatar-3.png")}
         />
         <Text style={styles.location}>U.S.A</Text>
@@ -60,7 +66,7 @@ const ImageSlide = () => {
   );
 };
 
-export default ImageSlide;
+export default ImageSlider1;
 
 const length = Dimensions.get("screen").width - 50;
 const ellipse1Len = length;
@@ -148,7 +154,7 @@ const styles = StyleSheet.create({
   imageContainer2: {
     position: "absolute",
     bottom: 20,
-    right: 70,
+    right: 60,
     zIndex: 10,
     justifyContent: "center",
     alignItems: "center",
@@ -167,6 +173,20 @@ const styles = StyleSheet.create({
     resizeMode: "cover",
     borderRadius: 20,
   },
+  passport1: {
+    width: 40,
+    height: 40,
+    resizeMode: "cover",
+    borderRadius: 20,
+    backgroundColor: Colors.ellipse3,
+  },
+  passport2: {
+    width: 40,
+    height: 40,
+    resizeMode: "cover",
+    borderRadius: 20,
+    backgroundColor: Colors.ellipse1,
+  },
   location: {
     color: Colors.gray700,
     fontFamily: "SFMedium",
@@ -175,12 +195,67 @@ const styles = StyleSheet.create({
 
   ////// Dots ///////
   dot1: {
-    width: 10,
-    height: 10,
-    borderRadius: 5,
+    width: 6,
+    height: 6,
+    borderRadius: 3,
     backgroundColor: Colors.ellipse1,
     position: "absolute",
     top: -10,
     left: 40,
+  },
+  dot2: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.ellipse2,
+    position: "absolute",
+    top: 65,
+    left: 45,
+  },
+  dot3: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.ellipse3,
+    position: "absolute",
+    top: 15,
+    right: 0,
+  },
+  dot4: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.gray400,
+    position: "absolute",
+    top: 15,
+    left: "45%",
+  },
+  dot5: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.gray400,
+    position: "absolute",
+    top: "70%",
+    right: 100,
+  },
+  dot6: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.ellipse5,
+    position: "absolute",
+    bottom: 0,
+    left: 50,
+  },
+  dot7: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    borderColor: Colors.ellipse4,
+    borderWidth: 1,
+    position: "absolute",
+    bottom: 40,
+    left: "60%",
   },
 });
