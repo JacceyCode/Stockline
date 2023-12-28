@@ -1,27 +1,79 @@
+import { useState } from "react";
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
+
 import Buttons from "../components/Button";
 import { Colors } from "../constants/colors";
 import { onboardingData } from "../constants/onboardingData";
-import { useState } from "react";
+import {
+  GestureDetector,
+  Gesture,
+  Directions,
+} from "react-native-gesture-handler";
+import Animated, {
+  SlideInLeft,
+  SlideInRight,
+  SlideOutLeft,
+  SlideOutRight,
+} from "react-native-reanimated";
 
 export default function OnboardingScreen() {
   const [screenIndex, setScreenIndex] = useState(0);
-
   const data = onboardingData[screenIndex];
+  const isFirstScreen = screenIndex === 0;
+  const isLastSCreen = screenIndex === onboardingData.length - 1;
+
+  ///GESTURE
+  const onForward = () => {
+    if (isLastSCreen) {
+      setScreenIndex(0);
+    } else {
+      setScreenIndex(screenIndex + 1);
+    }
+  };
+
+  const onBackward = () => {
+    if (isFirstScreen) {
+      setScreenIndex(onboardingData.length - 1);
+    } else {
+      setScreenIndex(screenIndex - 1);
+    }
+  };
+
+  const swipeRight = Gesture.Fling()
+    .direction(Directions.RIGHT)
+    .onEnd(onBackward);
+
+  const swipeLeft = Gesture.Fling().direction(Directions.LEFT).onEnd(onForward);
+
+  const swipe = Gesture.Simultaneous(swipeRight, swipeLeft);
 
   return (
     <>
       <View style={styles.container}>
         <Text style={styles.skip}>Skip</Text>
 
-        <View style={styles.screen}>
-          <Text style={styles.title}>{data.title}</Text>
-          <Text style={styles.description}>
-            {data.description}
-            {data.amount && <Text style={styles.amount}> {data.amount}</Text>}.
-          </Text>
-        </View>
+        <GestureDetector gesture={swipe}>
+          <View key={screenIndex} style={styles.screen}>
+            <Animated.Text
+              entering={SlideInLeft}
+              exiting={SlideOutRight}
+              style={styles.title}
+            >
+              {data.title}
+            </Animated.Text>
+
+            <Animated.Text
+              entering={SlideInLeft}
+              exiting={SlideOutRight}
+              style={styles.description}
+            >
+              {data.description}
+              {data.amount && <Text style={styles.amount}> {data.amount}</Text>}
+              .
+            </Animated.Text>
+          </View>
+        </GestureDetector>
 
         <View style={styles.stepIndicatorContainer}>
           {onboardingData.map((data, index) => (
@@ -40,7 +92,7 @@ export default function OnboardingScreen() {
 
         <View style={styles.buttons}>
           <Buttons title="Log In" path="login" primary={true} />
-          <Buttons title="Get Started" path="signup" />
+          <Buttons title="Get Started" path="signup" primary={false} />
         </View>
       </View>
       <StatusBar style="dark" />
@@ -59,7 +111,7 @@ const styles = StyleSheet.create({
     color: Colors.primary50,
     fontFamily: "SFMedium",
     fontSize: 16,
-    textAlign: "right",
+    alignSelf: "flex-end",
     paddingTop: 30,
   },
   screen: {

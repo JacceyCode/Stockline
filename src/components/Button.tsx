@@ -38,15 +38,15 @@ const styles = StyleSheet.create({
   },
   primaryButton: {
     flex: 1,
-    backgroundColor: Colors.white,
     padding: 8,
     borderRadius: 16,
-    borderWidth: 2,
-    borderColor: Colors.primary50,
     width: "100%",
     height: 60,
     justifyContent: "center",
     alignItems: "center",
+    backgroundColor: Colors.white,
+    borderWidth: 2,
+    borderColor: Colors.primary50,
   },
   primaryText: {
     color: Colors.primary50,
