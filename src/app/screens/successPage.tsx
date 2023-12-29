@@ -1,8 +1,9 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Alert, Image, StyleSheet, Text, View } from "react-native";
 
 import Buttons from "../../components/Button";
 import { Colors } from "../../constants/colors";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
+import PressableButton from "../../components/PressableButton";
 
 const Verification = () => {
   const { name } = useLocalSearchParams();
@@ -60,13 +61,30 @@ const Verification = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Buttons
+        {/* <Buttons
           title="I’m ready to start!"
           path="successPage"
           primary={false}
           // onPress={() => {
           //   Alert.alert(phoneNumber);
           // }}
+        /> */}
+        <PressableButton
+          title="I’m ready to start!"
+          onPress={() => {
+            Alert.alert(
+              "Congrats!",
+              "You have successfully accessed this app.",
+              [
+                {
+                  text: "Go Back Home",
+                  onPress: () => {
+                    router.replace("/");
+                  },
+                },
+              ]
+            );
+          }}
         />
       </View>
     </View>
