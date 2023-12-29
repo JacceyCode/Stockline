@@ -55,7 +55,9 @@ export default function SignUp() {
       return;
     }
 
-    router.push("/screens/verify");
+    const name = email.split("@").at(0);
+
+    router.push({ pathname: "/screens/verify", params: { name: name } });
   };
 
   return (

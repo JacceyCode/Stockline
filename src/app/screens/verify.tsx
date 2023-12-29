@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { StyleSheet, Text, View, Alert } from "react-native";
-import { Stack } from "expo-router";
+import { Stack, useLocalSearchParams } from "expo-router";
 import PhoneInput from "react-native-phone-number-input";
 import Buttons from "../../components/Button";
 import { Colors } from "../../constants/colors";
 
 const Verification = () => {
   const [phoneNumber, setPhoneNumber] = useState("");
+  const params = useLocalSearchParams();
+
+  console.log(params);
 
   return (
     <View style={styles.container}>

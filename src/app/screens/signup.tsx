@@ -61,10 +61,10 @@ export default function SignUp() {
       return;
     }
 
-    router.push("/screens/verify");
-  };
+    const name = username.split(" ").at(0);
 
-  console.log(nameError, emailError, passwordError);
+    router.push({ pathname: "/screens/verify", params: { name: name } });
+  };
 
   return (
     <View style={styles.container}>
