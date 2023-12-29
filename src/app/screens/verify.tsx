@@ -1,15 +1,41 @@
 import { useState } from "react";
 import { StyleSheet, Text, View, Alert } from "react-native";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import PhoneInput from "react-native-phone-number-input";
-import Buttons from "../../components/Button";
 import { Colors } from "../../constants/colors";
+import PressableButton from "../../components/PressableButton";
 
 const Verification = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const params = useLocalSearchParams();
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  // const [error, setError] = useState<boolean>(false);
+  const { name } = useLocalSearchParams();
 
-  console.log(params);
+  const onPhoneNumberInputHandler = () => {
+    //Validating phone number input
+    const phoneNumberRegex = /^[0-9]{10,18}$/;
+
+    // Remove non-digit characters from the input for validation
+    const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
+
+    const isValidNumber = phoneNumberRegex.test(cleanedPhoneNumber);
+
+    // setError(isValidNumber);
+
+    if (!isValidNumber) {
+      Alert.alert(
+        "Error",
+        "Phone number is incorrect! Number must be between 10 - 18 digits"
+      );
+      return;
+    }
+
+    const code = cleanedPhoneNumber.slice(-4);
+
+    router.push({
+      pathname: "/screens/otpConfirmation",
+      params: { name: name, code: code },
+    });
+  };
 
   return (
     <View style={styles.container}>
@@ -31,7 +57,7 @@ const Verification = () => {
         <View style={styles.numberContainer}>
           <PhoneInput
             defaultValue={phoneNumber}
-            defaultCode="US"
+            defaultCode="NG"
             containerStyle={styles.flag}
             textContainerStyle={styles.text}
             textInputStyle={styles.numberStyle}
@@ -52,13 +78,9 @@ const Verification = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        <Buttons
+        <PressableButton
           title="Send Code"
-          path="otpConfirmation"
-          primary={false}
-          // onPress={() => {
-          //   Alert.alert(phoneNumber);
-          // }}
+          onPress={onPhoneNumberInputHandler}
         />
       </View>
     </View>

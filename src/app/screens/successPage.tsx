@@ -2,8 +2,11 @@ import { Image, StyleSheet, Text, View } from "react-native";
 
 import Buttons from "../../components/Button";
 import { Colors } from "../../constants/colors";
+import { useLocalSearchParams } from "expo-router";
 
 const Verification = () => {
+  const { name } = useLocalSearchParams();
+  const finalName = name?.toString().toUpperCase();
   return (
     <View style={styles.container}>
       <View style={styles.container2}>
@@ -35,7 +38,9 @@ const Verification = () => {
 
         <View style={styles.textContainer}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-            <Text style={styles.title}>Hello Tocky!</Text>
+            <Text style={styles.title}>
+              Hello {finalName ? finalName : "Tocky"}!
+            </Text>
             <Image
               style={{ width: 20, height: 20, resizeMode: "cover" }}
               source={require("../../../assets/images/hand.png")}

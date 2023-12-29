@@ -1,11 +1,27 @@
-import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
-import { Stack } from "expo-router";
+import { useState } from "react";
+import { StyleSheet, Text, View, TouchableOpacity, Alert } from "react-native";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import OTPTextInput from "react-native-otp-textinput";
-
-import Buttons from "../../components/Button";
 import { Colors } from "../../constants/colors";
+import PressableButton from "../../components/PressableButton";
 
 const Verification = () => {
+  const [otpInput, setOtpInput] = useState<string>("");
+  const { code, name } = useLocalSearchParams();
+
+  const onConfirmOTPHandler = () => {
+    const isValidOTP = otpInput === code;
+
+    if (!isValidOTP) {
+      Alert.alert("Error", "Invalid OTP input!");
+      return;
+    }
+    router.replace({
+      pathname: "/screens/successPage",
+      params: { name: name },
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -24,21 +40,20 @@ const Verification = () => {
         </View>
 
         <View style={styles.numberContainer}>
-          <OTPTextInput textInputStyle={styles.otpInput} />
-          <TouchableOpacity>
+          <OTPTextInput
+            textInputStyle={styles.otpInput}
+            handleTextChange={(text) => setOtpInput(text)}
+          />
+          <TouchableOpacity onPress={() => router.back()}>
             <Text style={styles.resendCode}>Resend Code</Text>
           </TouchableOpacity>
         </View>
       </View>
 
       <View style={styles.buttonContainer}>
-        <Buttons
+        <PressableButton
           title="Verify Accounts"
-          path="successPage"
-          primary={false}
-          // onPress={() => {
-          //   Alert.alert(phoneNumber);
-          // }}
+          onPress={onConfirmOTPHandler}
         />
       </View>
     </View>
