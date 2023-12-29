@@ -34,7 +34,7 @@ const Verification = () => {
       <View style={styles.buttonContainer}>
         <Buttons
           title="Verify Accounts"
-          path="otpConfirmation"
+          path="successPage"
           primary={false}
           // onPress={() => {
           //   Alert.alert(phoneNumber);
