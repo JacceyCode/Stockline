@@ -20,4 +20,5 @@ export const Colors = {
   dot3: "#52FFC4",
   dot4: "#6FFFF7",
   dot5: "#FFCC93",
+  error: "#f80404",
 };

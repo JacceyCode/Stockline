@@ -9,25 +9,62 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AntDesign } from "@expo/vector-icons";
-
 import { Colors } from "../../constants/colors";
-import Buttons from "../../components/Button";
+import PressableButton from "../../components/PressableButton";
+
+type data = {
+  username: string;
+  email: string;
+  password: string;
+};
 
 export default function SignUp() {
-  const [username, onChangeUsername] = useState("");
-  const [email, onChangeEmail] = useState("");
-  const [password, onChangePassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [isFocused1, setIsFocused1] = useState(false);
-  const [isFocused2, setIsFocused2] = useState(false);
-  const [isFocused3, setIsFocused3] = useState(false);
+  const [username, onChangeUsername] = useState<string>("");
+  const [email, onChangeEmail] = useState<string>("");
+  const [password, onChangePassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isFocused1, setIsFocused1] = useState<boolean>(false);
+  const [isFocused2, setIsFocused2] = useState<boolean>(false);
+  const [isFocused3, setIsFocused3] = useState<boolean>(false);
+  const [nameError, setNameError] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+
+  const userData = {
+    username,
+    email,
+    password,
+  };
 
   const showPasswordHandler = () => {
     setShowPassword((prev) => !prev);
   };
+
+  const onSignUpHandler = (userData: data) => {
+    const { username, email, password } = userData;
+
+    // Simple email validation using a regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailRegex.test(email);
+
+    //simple validation for username and password
+    const isValidName = username.trim().length > 2;
+    const isValidPassword = password.trimStart().trimEnd().length > 5;
+    setEmailError(!isValidEmail);
+    setNameError(!isValidName);
+    setPasswordError(!isValidPassword);
+
+    if (!isValidName || !isValidEmail || !isValidPassword) {
+      return;
+    }
+
+    router.push("/screens/verify");
+  };
+
+  console.log(nameError, emailError, passwordError);
 
   return (
     <View style={styles.container}>
@@ -58,7 +95,11 @@ export default function SignUp() {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <TextInput
-            style={[styles.input, isFocused1 && styles.inputFocused]}
+            style={[
+              styles.input,
+              isFocused1 && styles.inputFocused,
+              nameError && styles.inputError,
+            ]}
             placeholder="Username"
             onChangeText={onChangeUsername}
             value={username}
@@ -67,7 +108,11 @@ export default function SignUp() {
           />
 
           <TextInput
-            style={[styles.input, isFocused2 && styles.inputFocused]}
+            style={[
+              styles.input,
+              isFocused2 && styles.inputFocused,
+              emailError && styles.inputError,
+            ]}
             placeholder="Email"
             onChangeText={onChangeEmail}
             value={email}
@@ -78,7 +123,11 @@ export default function SignUp() {
 
           <View style={styles.passwordContainer}>
             <TextInput
-              style={[styles.input, isFocused3 && styles.inputFocused]}
+              style={[
+                styles.input,
+                isFocused3 && styles.inputFocused,
+                passwordError && styles.inputError,
+              ]}
               placeholder="Password"
               onChangeText={onChangePassword}
               value={password}
@@ -100,7 +149,10 @@ export default function SignUp() {
         </KeyboardAvoidingView>
 
         <View style={{ width: "100%", height: 50 }}>
-          <Buttons title="Continue" path="verify" primary={false} />
+          <PressableButton
+            title="Continue"
+            onPress={() => onSignUpHandler(userData)}
+          />
         </View>
       </View>
 
@@ -209,6 +261,9 @@ const styles = StyleSheet.create({
   },
   inputFocused: {
     borderColor: Colors.primary50,
+  },
+  inputError: {
+    borderColor: Colors.error,
   },
   passwordContainer: {
     flexDirection: "row",

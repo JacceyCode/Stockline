@@ -1,5 +1,4 @@
 import { Image, StyleSheet, Text, View } from "react-native";
-// import { Stack } from "expo-router";
 
 import Buttons from "../../components/Button";
 import { Colors } from "../../constants/colors";
@@ -7,13 +6,6 @@ import { Colors } from "../../constants/colors";
 const Verification = () => {
   return (
     <View style={styles.container}>
-      {/* <Stack.Screen
-        options={{
-          headerShown: true,
-          headerTitle: "",
-        }}
-      /> */}
-
       <View style={styles.container2}>
         <View style={styles.headerContainer}>
           <View style={styles.logoContainer}>

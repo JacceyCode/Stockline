@@ -10,22 +10,52 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, router } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { AntDesign } from "@expo/vector-icons";
-
 import { Colors } from "../../constants/colors";
-import Buttons from "../../components/Button";
+import PressableButton from "../../components/PressableButton";
+
+type data = {
+  email: string;
+  password: string;
+};
 
 export default function SignUp() {
-  const [email, onChangeEmail] = useState("");
-  const [password, onChangePassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [isFocused2, setIsFocused2] = useState(false);
-  const [isFocused3, setIsFocused3] = useState(false);
+  const [email, onChangeEmail] = useState<string>("");
+  const [password, onChangePassword] = useState<string>("");
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [isFocused2, setIsFocused2] = useState<boolean>(false);
+  const [isFocused3, setIsFocused3] = useState<boolean>(false);
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [passwordError, setPasswordError] = useState<boolean>(false);
+
+  const userData = {
+    email,
+    password,
+  };
 
   const showPasswordHandler = () => {
     setShowPassword((prev) => !prev);
+  };
+
+  const onSignInHandler = (userData: data) => {
+    const { email, password } = userData;
+
+    // Simple email validation using a regular expression
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const isValidEmail = emailRegex.test(email);
+
+    //simple validation for password
+    const isValidPassword = password.trimStart().trimEnd().length > 5;
+    setEmailError(!isValidEmail);
+    setPasswordError(!isValidPassword);
+
+    if (!isValidEmail || !isValidPassword) {
+      return;
+    }
+
+    router.push("/screens/verify");
   };
 
   return (
@@ -62,7 +92,11 @@ export default function SignUp() {
           behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <TextInput
-            style={[styles.input, isFocused2 && styles.inputFocused]}
+            style={[
+              styles.input,
+              isFocused2 && styles.inputFocused,
+              emailError && styles.inputError,
+            ]}
             placeholder="Email"
             onChangeText={onChangeEmail}
             value={email}
@@ -73,7 +107,11 @@ export default function SignUp() {
 
           <View style={styles.passwordContainer}>
             <TextInput
-              style={[styles.input, isFocused3 && styles.inputFocused]}
+              style={[
+                styles.input,
+                isFocused3 && styles.inputFocused,
+                passwordError && styles.inputError,
+              ]}
               placeholder="Password"
               onChangeText={onChangePassword}
               value={password}
@@ -95,7 +133,10 @@ export default function SignUp() {
         </KeyboardAvoidingView>
 
         <View style={{ width: "100%", height: 50 }}>
-          <Buttons title="Login" path="verify" primary={false} />
+          <PressableButton
+            title="Login"
+            onPress={() => onSignInHandler(userData)}
+          />
         </View>
         <TouchableOpacity>
           <Text style={styles.forgotPassword}>Forgot password?</Text>
@@ -205,6 +246,9 @@ const styles = StyleSheet.create({
   },
   inputFocused: {
     borderColor: Colors.primary50,
+  },
+  inputError: {
+    borderColor: Colors.error,
   },
   passwordContainer: {
     flexDirection: "row",

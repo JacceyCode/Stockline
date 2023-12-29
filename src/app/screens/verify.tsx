@@ -30,11 +30,17 @@ const Verification = () => {
             defaultValue={phoneNumber}
             defaultCode="US"
             containerStyle={styles.flag}
+            textContainerStyle={styles.text}
             textInputStyle={styles.numberStyle}
             flagButtonStyle={{
               borderRightWidth: 2,
               borderRightColor: Colors.gray400,
               paddingVertical: 5,
+            }}
+            codeTextStyle={{
+              color: Colors.gray600,
+              fontFamily: "SFRegular",
+              fontSize: 15,
             }}
             autoFocus
             onChangeFormattedText={(text) => setPhoneNumber(text)}
@@ -92,6 +98,11 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderWidth: 2,
     borderColor: Colors.gray400,
+  },
+  text: {
+    borderTopRightRadius: 15,
+    borderBottomRightRadius: 15,
+    backgroundColor: Colors.white,
   },
   numberStyle: {
     color: Colors.gray800,
