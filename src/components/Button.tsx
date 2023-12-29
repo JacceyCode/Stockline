@@ -10,7 +10,7 @@ type Buttons = {
 
 const Buttons = ({ title, path, primary }: Buttons) => {
   return (
-    <Link href={`/screen/${path}`} asChild>
+    <Link href={`/screens/${path}`} asChild>
       <Pressable style={primary ? styles.primaryButton : styles.button}>
         <Text style={primary ? styles.primaryText : styles.text}>{title}</Text>
       </Pressable>

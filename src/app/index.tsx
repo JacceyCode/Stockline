@@ -13,6 +13,7 @@ import {
 import Animated, { SlideInLeft, SlideOutRight } from "react-native-reanimated";
 import ImageSlider1 from "../components/imageSlider1";
 import ImageSlider2 from "../components/imageSlider2";
+import { Link } from "expo-router";
 
 export default function OnboardingScreen() {
   const [screenIndex, setScreenIndex] = useState(0);
@@ -48,7 +49,9 @@ export default function OnboardingScreen() {
   return (
     <>
       <View style={styles.container}>
-        <Text style={styles.skip}>Skip</Text>
+        <Link href={"/screens/signup"} asChild>
+          <Text style={styles.skip}>Skip</Text>
+        </Link>
 
         <GestureDetector gesture={swipe}>
           <View key={screenIndex} style={styles.screen}>
