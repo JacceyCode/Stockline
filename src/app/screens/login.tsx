@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   View,
 } from "react-native";
 import { Link } from "expo-router";
@@ -35,6 +36,11 @@ export default function SignUp() {
             style={styles.logo}
             source={require("../../../assets/images/icon.png")}
           />
+
+          {/* /////Elliptical dot///// */}
+          <View style={styles.dot1}></View>
+          <View style={styles.dot2}></View>
+          <View style={styles.dot3}></View>
         </View>
         <View style={styles.glass}></View>
       </View>
@@ -87,10 +93,13 @@ export default function SignUp() {
             </Pressable>
           </View>
         </KeyboardAvoidingView>
+
         <View style={{ width: "100%", height: 50 }}>
           <Buttons title="Login" path="verify" primary={false} />
         </View>
-        <Text style={styles.forgotPassword}>Forgot password?</Text>
+        <TouchableOpacity>
+          <Text style={styles.forgotPassword}>Forgot password?</Text>
+        </TouchableOpacity>
       </View>
 
       <View style={styles.alternativeLoginContainer}>
@@ -260,5 +269,35 @@ const styles = StyleSheet.create({
   },
   linkHref: {
     color: Colors.primary50,
+  },
+
+  ////// Dots ///////
+  dot1: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    backgroundColor: Colors.dot3,
+    position: "absolute",
+    top: -20,
+    left: -30,
+  },
+  dot2: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: Colors.dot4,
+    position: "absolute",
+    top: 30,
+    left: 100,
+  },
+  dot3: {
+    width: 20,
+    height: 20,
+    borderRadius: 3,
+    backgroundColor: Colors.dot5,
+    position: "absolute",
+    bottom: 0,
+    left: -40,
+    transform: "rotate(-75deg)",
   },
 });

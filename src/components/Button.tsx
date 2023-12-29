@@ -1,19 +1,23 @@
 import { Link } from "expo-router";
-import { StyleSheet, Button, Pressable, Text } from "react-native";
+import { StyleSheet, Pressable, Text, TouchableOpacity } from "react-native";
 import { Colors } from "../constants/colors";
 
 type Buttons = {
   title: String;
   path: String;
   primary?: Boolean;
+  onPress?: any;
 };
 
-const Buttons = ({ title, path, primary }: Buttons) => {
+const Buttons = ({ title, path, primary, onPress }: Buttons) => {
   return (
     <Link href={`/screens/${path}`} asChild>
-      <Pressable style={primary ? styles.primaryButton : styles.button}>
+      <TouchableOpacity
+        onPress={onPress}
+        style={primary ? styles.primaryButton : styles.button}
+      >
         <Text style={primary ? styles.primaryText : styles.text}>{title}</Text>
-      </Pressable>
+      </TouchableOpacity>
     </Link>
   );
 };

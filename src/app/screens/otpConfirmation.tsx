@@ -1,13 +1,11 @@
-import { useState } from "react";
-import { StyleSheet, Text, View, Alert } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import { Stack } from "expo-router";
-import PhoneInput from "react-native-phone-number-input";
+import OTPTextInput from "react-native-otp-textinput";
+
 import Buttons from "../../components/Button";
 import { Colors } from "../../constants/colors";
 
 const Verification = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
-
   return (
     <View style={styles.container}>
       <Stack.Screen
@@ -19,32 +17,23 @@ const Verification = () => {
 
       <View style={styles.inputContainer}>
         <View style={styles.inputHeader}>
-          <Text style={styles.header}>Enter your phone number</Text>
+          <Text style={styles.header}>Enter verification code</Text>
           <Text style={styles.description}>
-            You'll receive a 4 digit code for the phone number verification
+            We have sent the code verification to your mobile number
           </Text>
         </View>
 
         <View style={styles.numberContainer}>
-          <PhoneInput
-            defaultValue={phoneNumber}
-            defaultCode="US"
-            containerStyle={styles.flag}
-            textInputStyle={styles.numberStyle}
-            flagButtonStyle={{
-              borderRightWidth: 2,
-              borderRightColor: Colors.gray400,
-              paddingVertical: 5,
-            }}
-            autoFocus
-            onChangeFormattedText={(text) => setPhoneNumber(text)}
-          />
+          <OTPTextInput textInputStyle={styles.otpInput} />
+          <TouchableOpacity>
+            <Text style={styles.resendCode}>Resend Code</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
       <View style={styles.buttonContainer}>
         <Buttons
-          title="Send Code"
+          title="Verify Accounts"
           path="otpConfirmation"
           primary={false}
           // onPress={() => {
@@ -87,17 +76,20 @@ const styles = StyleSheet.create({
   numberContainer: {
     justifyContent: "center",
     alignItems: "center",
+    gap: 20,
   },
-  flag: {
-    borderRadius: 15,
+  resendCode: {
+    textAlign: "center",
+    color: Colors.primary50,
+    fontFamily: "SFBold",
+    fontSize: 12,
+  },
+  otpInput: {
     borderWidth: 2,
-    borderColor: Colors.gray400,
+    borderBottomWidth: 2,
+    borderRadius: 10,
   },
-  numberStyle: {
-    color: Colors.gray800,
-    fontFamily: "SFRegular",
-    fontSize: 15,
-  },
+
   buttonContainer: {
     width: "100%",
     height: 50,

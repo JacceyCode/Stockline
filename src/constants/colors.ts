@@ -17,4 +17,7 @@ export const Colors = {
   ellipse5: "#FFA23A",
   dot1: "#2DEBE1",
   dot2: "#95D2FF",
+  dot3: "#52FFC4",
+  dot4: "#6FFFF7",
+  dot5: "#FFCC93",
 };
