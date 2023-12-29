@@ -1,21 +1,33 @@
+import { useState } from "react";
 import {
   Image,
   KeyboardAvoidingView,
   Platform,
+  Pressable,
   StyleSheet,
   Text,
   TextInput,
   View,
 } from "react-native";
 import { Link } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { AntDesign } from "@expo/vector-icons";
+
 import { Colors } from "../../constants/colors";
-import { useState } from "react";
 import Buttons from "../../components/Button";
 
 export default function SignUp() {
   const [username, onChangeUsername] = useState("");
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [isFocused1, setIsFocused1] = useState(false);
+  const [isFocused2, setIsFocused2] = useState(false);
+  const [isFocused3, setIsFocused3] = useState(false);
+
+  const showPasswordHandler = () => {
+    setShowPassword((prev) => !prev);
+  };
 
   return (
     <View style={styles.container}>
@@ -39,27 +51,47 @@ export default function SignUp() {
       <View style={styles.inputContainer}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
-          //   style={styles.inputContainer}
         >
           <TextInput
-            style={styles.input}
+            style={[styles.input, isFocused1 && styles.inputFocused]}
             placeholder="Username"
             onChangeText={onChangeUsername}
             value={username}
+            onFocus={() => setIsFocused1(true)}
+            onBlur={() => setIsFocused1(false)}
           />
+
           <TextInput
-            style={styles.input}
+            style={[styles.input, isFocused2 && styles.inputFocused]}
             placeholder="Email"
             onChangeText={onChangeEmail}
             value={email}
+            onFocus={() => setIsFocused2(true)}
+            onBlur={() => setIsFocused2(false)}
+            keyboardType="email-address"
           />
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            onChangeText={onChangePassword}
-            value={password}
-            secureTextEntry={true}
-          />
+
+          <View style={styles.passwordContainer}>
+            <TextInput
+              style={[styles.input, isFocused3 && styles.inputFocused]}
+              placeholder="Password"
+              onChangeText={onChangePassword}
+              value={password}
+              secureTextEntry={!showPassword ? true : false}
+              onFocus={() => setIsFocused3(true)}
+              onBlur={() => setIsFocused3(false)}
+            />
+            <Pressable
+              onPress={showPasswordHandler}
+              style={styles.passwordIcon}
+            >
+              <Ionicons
+                name={!showPassword ? "eye-off-outline" : "eye-outline"}
+                size={24}
+                color="black"
+              />
+            </Pressable>
+          </View>
         </KeyboardAvoidingView>
         <View style={{ width: "100%", height: 50 }}>
           <Buttons title="Continue" path="verify" primary={false} />
@@ -81,10 +113,7 @@ export default function SignUp() {
             />
           </View>
           <View style={styles.button}>
-            <Image
-              style={styles.buttonImage}
-              source={require("../../../assets/images/apple.png")}
-            />
+            <AntDesign name="apple1" size={24} color="black" />
           </View>
         </View>
 
@@ -162,15 +191,27 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    height: 45,
+    height: 50,
     borderWidth: 2,
-    borderColor: Colors.gray400,
     borderRadius: 15,
+    borderColor: Colors.gray400,
     paddingHorizontal: 20,
     marginVertical: 5,
     fontSize: 16,
     color: Colors.gray800,
     fontFamily: "SFMedium",
+  },
+  inputFocused: {
+    borderColor: Colors.primary50,
+  },
+  passwordContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    position: "relative",
+  },
+  passwordIcon: {
+    position: "absolute",
+    right: 10,
   },
   alternativeLoginContainer: {
     flex: 1,
