@@ -107,7 +107,9 @@ export default function SignUp() {
             placeholder="Email"
             onChangeText={(text) => setEmail(text)}
             value={email}
-            onFocus={() => setIsFocused2(true)}
+            onFocus={() => {
+              setEmailError(false), setIsFocused2(true);
+            }}
             onBlur={() => setIsFocused2(false)}
             keyboardType="email-address"
           />
@@ -123,7 +125,9 @@ export default function SignUp() {
               onChangeText={(text) => setPassword(text)}
               value={password}
               secureTextEntry={!showPassword ? true : false}
-              onFocus={() => setIsFocused3(true)}
+              onFocus={() => {
+                setPasswordError(false), setIsFocused3(true);
+              }}
               onBlur={() => setIsFocused3(false)}
             />
 
