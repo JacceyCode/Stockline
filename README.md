@@ -39,7 +39,7 @@ To set up the development environment, follow these steps:
 2. Install dependencies:
 
    ```bash
-   cd stockline-app
+   cd Stockline
    npm install
    ```
 
