@@ -5,7 +5,8 @@ import PressableButton from "../../components/PressableButton";
 
 const Verification = () => {
   const { name } = useLocalSearchParams();
-  const finalName = name?.toString();
+  const finalName = name;
+
   return (
     <View style={styles.container}>
       <View style={styles.container2}>
@@ -117,17 +118,18 @@ const styles = StyleSheet.create({
   },
   glass: {
     position: "absolute",
-    bottom: -50,
+    bottom: -30,
     backgroundColor: Colors.white,
     opacity: 0.5,
     width: "100%",
-    height: 100,
+    height: 80,
   },
   textContainer: {
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 15,
     gap: 10,
+    // marginTop: 15,
     position: "relative",
   },
   title: {
@@ -201,7 +203,7 @@ const styles = StyleSheet.create({
     height: 15,
     resizeMode: "contain",
     position: "absolute",
-    top: 30,
+    top: 40,
     left: 0,
   },
   dot3: {
@@ -209,8 +211,8 @@ const styles = StyleSheet.create({
     height: 6,
     backgroundColor: Colors.dot3,
     position: "absolute",
-    top: 10,
-    right: 20,
+    top: 0,
+    right: -10,
     transform: "rotate(-25deg)",
   },
   dot4: {

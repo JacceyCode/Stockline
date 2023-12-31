@@ -7,7 +7,6 @@ import PressableButton from "../../components/PressableButton";
 
 const Verification = () => {
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  // const [error, setError] = useState<boolean>(false);
   const { name } = useLocalSearchParams();
 
   const onPhoneNumberInputHandler = () => {
@@ -18,8 +17,6 @@ const Verification = () => {
     const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
 
     const isValidNumber = phoneNumberRegex.test(cleanedPhoneNumber);
-
-    // setError(isValidNumber);
 
     if (!isValidNumber) {
       Alert.alert(
