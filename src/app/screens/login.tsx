@@ -22,8 +22,8 @@ type data = {
 };
 
 export default function SignUp() {
-  const [email, onChangeEmail] = useState<string>("");
-  const [password, onChangePassword] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isFocused2, setIsFocused2] = useState<boolean>(false);
   const [isFocused3, setIsFocused3] = useState<boolean>(false);
@@ -57,42 +57,47 @@ export default function SignUp() {
 
     const name = email.split("@").at(0);
 
+    setEmail("");
+    setPassword("");
+
     router.push({ pathname: "/screens/verify", params: { name: name } });
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={require("../../../assets/images/icon.png")}
-          />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : "height"}
+        style={{ flex: 1, justifyContent: "space-between" }}
+      >
+        <View style={styles.headerContainer}>
+          <View style={styles.logoContainer}>
+            <Image
+              style={styles.logo}
+              source={require("../../../assets/images/icon.png")}
+            />
 
-          {/* /////Elliptical dot///// */}
-          <View style={styles.dot1}></View>
-          <View style={styles.dot2}></View>
-          <View style={styles.dot3}></View>
+            {/* /////Elliptical dot///// */}
+            <View style={styles.dot1}></View>
+            <View style={styles.dot2}></View>
+            <View style={styles.dot3}></View>
+          </View>
+          <View style={styles.glass}></View>
         </View>
-        <View style={styles.glass}></View>
-      </View>
-      <View style={styles.textContainer}>
-        <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
-          <Text style={styles.title}>Hi There!</Text>
-          <Image
-            style={{ width: 20, height: 20, resizeMode: "cover" }}
-            source={require("../../../assets/images/hand.png")}
-          />
-        </View>
-        <Text style={styles.description}>
-          Welcome back, Sign in to your account
-        </Text>
-      </View>
 
-      <View style={styles.inputContainer}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
+        <View style={styles.textContainer}>
+          <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
+            <Text style={styles.title}>Hi There!</Text>
+            <Image
+              style={{ width: 20, height: 20, resizeMode: "cover" }}
+              source={require("../../../assets/images/hand.png")}
+            />
+          </View>
+          <Text style={styles.description}>
+            Welcome back, Sign in to your account
+          </Text>
+        </View>
+
+        <View style={styles.inputContainer}>
           <TextInput
             style={[
               styles.input,
@@ -100,7 +105,7 @@ export default function SignUp() {
               emailError && styles.inputError,
             ]}
             placeholder="Email"
-            onChangeText={onChangeEmail}
+            onChangeText={(text) => setEmail(text)}
             value={email}
             onFocus={() => setIsFocused2(true)}
             onBlur={() => setIsFocused2(false)}
@@ -115,12 +120,13 @@ export default function SignUp() {
                 passwordError && styles.inputError,
               ]}
               placeholder="Password"
-              onChangeText={onChangePassword}
+              onChangeText={(text) => setPassword(text)}
               value={password}
               secureTextEntry={!showPassword ? true : false}
               onFocus={() => setIsFocused3(true)}
               onBlur={() => setIsFocused3(false)}
             />
+
             <Pressable
               onPress={showPasswordHandler}
               style={styles.passwordIcon}
@@ -132,47 +138,48 @@ export default function SignUp() {
               />
             </Pressable>
           </View>
-        </KeyboardAvoidingView>
 
-        <View style={{ width: "100%", height: 50 }}>
-          <PressableButton
-            title="Login"
-            onPress={() => onSignInHandler(userData)}
-          />
-        </View>
-        <TouchableOpacity>
-          <Text style={styles.forgotPassword}>Forgot password?</Text>
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.alternativeLoginContainer}>
-        <View style={styles.divider}>
-          <View style={styles.dividerLine}></View>
-          <Text style={styles.dividerText}>Or login with</Text>
-          <View style={styles.dividerLine}></View>
-        </View>
-
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Image
-              style={styles.buttonImage}
-              source={require("../../../assets/images/google.png")}
+          <View style={{ width: "100%", height: 60, marginVertical: 5 }}>
+            <PressableButton
+              title="Login"
+              onPress={() => onSignInHandler(userData)}
             />
           </View>
-          <View style={styles.button}>
-            <AntDesign name="apple1" size={24} color="black" />
-          </View>
+
+          <TouchableOpacity>
+            <Text style={styles.forgotPassword}>Forgot password?</Text>
+          </TouchableOpacity>
         </View>
 
-        <View style={styles.link}>
-          <Text style={styles.linkText}>
-            Don’t have an account?{" "}
-            <Link href={"/screens/signup"} asChild>
-              <Text style={styles.linkHref}>Sign Up</Text>
-            </Link>
-          </Text>
+        <View style={styles.alternativeLoginContainer}>
+          <View style={styles.divider}>
+            <View style={styles.dividerLine}></View>
+            <Text style={styles.dividerText}>Or login with</Text>
+            <View style={styles.dividerLine}></View>
+          </View>
+
+          <View style={styles.buttonContainer}>
+            <View style={styles.button}>
+              <Image
+                style={styles.buttonImage}
+                source={require("../../../assets/images/google.png")}
+              />
+            </View>
+            <View style={styles.button}>
+              <AntDesign name="apple1" size={24} color="black" />
+            </View>
+          </View>
+
+          <View style={styles.link}>
+            <Text style={styles.linkText}>
+              Don’t have an account?{" "}
+              <Link href={"/screens/signup"} asChild>
+                <Text style={styles.linkHref}>Sign Up</Text>
+              </Link>
+            </Text>
+          </View>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -181,9 +188,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    marginVertical: 50,
-    gap: 20,
-    justifyContent: "space-between",
+    marginTop: 70,
+    marginBottom: 20,
   },
   headerContainer: {
     justifyContent: "center",
@@ -214,7 +220,6 @@ const styles = StyleSheet.create({
     height: 80,
   },
   textContainer: {
-    justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 15,
     gap: 10,
@@ -236,12 +241,12 @@ const styles = StyleSheet.create({
   },
   input: {
     width: "100%",
-    height: 50,
+    height: 60,
     borderWidth: 2,
     borderRadius: 15,
     borderColor: Colors.gray400,
     paddingHorizontal: 20,
-    marginVertical: 5,
+    marginVertical: 10,
     fontSize: 16,
     color: Colors.gray800,
     fontFamily: "SFMedium",

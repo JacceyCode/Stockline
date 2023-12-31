@@ -4,6 +4,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TextInput,
@@ -22,9 +23,9 @@ type data = {
 };
 
 export default function SignUp() {
-  const [username, onChangeUsername] = useState<string>("");
-  const [email, onChangeEmail] = useState<string>("");
-  const [password, onChangePassword] = useState<string>("");
+  const [username, setUsername] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
   const [isFocused1, setIsFocused1] = useState<boolean>(false);
   const [isFocused2, setIsFocused2] = useState<boolean>(false);
@@ -63,127 +64,135 @@ export default function SignUp() {
 
     const name = username.split(" ").at(0);
 
+    setUsername("");
+    setEmail("");
+    setPassword("");
+
     router.push({ pathname: "/screens/verify", params: { name: name } });
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.headerContainer}>
-        <View style={styles.logoContainer}>
-          <Image
-            style={styles.logo}
-            source={require("../../../assets/images/icon.png")}
-          />
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "position" : "height"}
+        style={{ flex: 1, justifyContent: "center" }}
+      >
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.headerContainer}>
+            <View style={styles.logoContainer}>
+              <Image
+                style={styles.logo}
+                source={require("../../../assets/images/icon.png")}
+              />
 
-          {/* /////Elliptical dot///// */}
-          <View style={styles.dot1}></View>
-          <View style={styles.dot2}></View>
-          <View style={styles.dot3}></View>
-        </View>
-        <View style={styles.glass}></View>
-      </View>
-      <View style={styles.textContainer}>
-        <Text style={styles.title}>Join Stockline</Text>
-        <Text style={styles.description}>
-          Start investing for your favorite companies with as little as{" "}
-          <Text style={styles.amount}>$1</Text>
-        </Text>
-      </View>
+              {/* /////Elliptical dot///// */}
+              <View style={styles.dot1}></View>
+              <View style={styles.dot2}></View>
+              <View style={styles.dot3}></View>
+            </View>
+            <View style={styles.glass}></View>
+          </View>
 
-      <View style={styles.inputContainer}>
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <TextInput
-            style={[
-              styles.input,
-              isFocused1 && styles.inputFocused,
-              nameError && styles.inputError,
-            ]}
-            placeholder="Username"
-            onChangeText={onChangeUsername}
-            value={username}
-            onFocus={() => setIsFocused1(true)}
-            onBlur={() => setIsFocused1(false)}
-          />
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>Join Stockline</Text>
+            <Text style={styles.description}>
+              Start investing for your favorite companies with as little as{" "}
+              <Text style={styles.amount}>$1</Text>
+            </Text>
+          </View>
 
-          <TextInput
-            style={[
-              styles.input,
-              isFocused2 && styles.inputFocused,
-              emailError && styles.inputError,
-            ]}
-            placeholder="Email"
-            onChangeText={onChangeEmail}
-            value={email}
-            onFocus={() => setIsFocused2(true)}
-            onBlur={() => setIsFocused2(false)}
-            keyboardType="email-address"
-          />
-
-          <View style={styles.passwordContainer}>
+          <View style={styles.inputContainer}>
             <TextInput
               style={[
                 styles.input,
-                isFocused3 && styles.inputFocused,
-                passwordError && styles.inputError,
+                isFocused1 && styles.inputFocused,
+                nameError && styles.inputError,
               ]}
-              placeholder="Password"
-              onChangeText={onChangePassword}
-              value={password}
-              secureTextEntry={!showPassword ? true : false}
-              onFocus={() => setIsFocused3(true)}
-              onBlur={() => setIsFocused3(false)}
+              placeholder="Username"
+              onChangeText={(text) => setUsername(text)}
+              value={username}
+              onFocus={() => setIsFocused1(true)}
+              onBlur={() => setIsFocused1(false)}
             />
-            <Pressable
-              onPress={showPasswordHandler}
-              style={styles.passwordIcon}
-            >
-              <Ionicons
-                name={!showPassword ? "eye-off-outline" : "eye-outline"}
-                size={24}
-                color="black"
+
+            <TextInput
+              style={[
+                styles.input,
+                isFocused2 && styles.inputFocused,
+                emailError && styles.inputError,
+              ]}
+              placeholder="Email"
+              onChangeText={(text) => setEmail(text)}
+              value={email}
+              onFocus={() => setIsFocused2(true)}
+              onBlur={() => setIsFocused2(false)}
+              keyboardType="email-address"
+            />
+
+            <View style={styles.passwordContainer}>
+              <TextInput
+                style={[
+                  styles.input,
+                  isFocused3 && styles.inputFocused,
+                  passwordError && styles.inputError,
+                ]}
+                placeholder="Password"
+                onChangeText={(text) => setPassword(text)}
+                value={password}
+                secureTextEntry={!showPassword ? true : false}
+                onFocus={() => setIsFocused3(true)}
+                onBlur={() => setIsFocused3(false)}
               />
-            </Pressable>
+              <Pressable
+                onPress={showPasswordHandler}
+                style={styles.passwordIcon}
+              >
+                <Ionicons
+                  name={!showPassword ? "eye-off-outline" : "eye-outline"}
+                  size={24}
+                  color="black"
+                />
+              </Pressable>
+            </View>
+
+            <View style={{ width: "100%", height: 60 }}>
+              <PressableButton
+                title="Continue"
+                onPress={() => onSignUpHandler(userData)}
+              />
+            </View>
           </View>
-        </KeyboardAvoidingView>
 
-        <View style={{ width: "100%", height: 50 }}>
-          <PressableButton
-            title="Continue"
-            onPress={() => onSignUpHandler(userData)}
-          />
-        </View>
-      </View>
+          <View style={styles.alternativeLoginContainer}>
+            <View style={styles.divider}>
+              <View style={styles.dividerLine}></View>
+              <Text style={styles.dividerText}>Or continue with</Text>
+              <View style={styles.dividerLine}></View>
+            </View>
 
-      <View style={styles.alternativeLoginContainer}>
-        <View style={styles.divider}>
-          <View style={styles.dividerLine}></View>
-          <Text style={styles.dividerText}>Or continue with</Text>
-          <View style={styles.dividerLine}></View>
-        </View>
+            <View style={styles.buttonContainer}>
+              <View style={styles.button}>
+                <Image
+                  style={styles.buttonImage}
+                  source={require("../../../assets/images/google.png")}
+                />
+              </View>
+              <View style={styles.button}>
+                <AntDesign name="apple1" size={24} color="black" />
+              </View>
+            </View>
 
-        <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Image
-              style={styles.buttonImage}
-              source={require("../../../assets/images/google.png")}
-            />
+            <View style={styles.link}>
+              <Text style={styles.linkText}>
+                Already have an account?{" "}
+                <Link href={"/screens/login"} asChild>
+                  <Text style={styles.linkHref}>Sign In</Text>
+                </Link>
+              </Text>
+            </View>
           </View>
-          <View style={styles.button}>
-            <AntDesign name="apple1" size={24} color="black" />
-          </View>
-        </View>
-
-        <View style={styles.link}>
-          <Text style={styles.linkText}>
-            Already have an account?{" "}
-            <Link href={"/screens/login"} asChild>
-              <Text style={styles.linkHref}>Sign In</Text>
-            </Link>
-          </Text>
-        </View>
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
@@ -192,8 +201,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 20,
-    marginTop: 50,
-    gap: 20,
+    marginTop: 70,
   },
   headerContainer: {
     justifyContent: "center",
@@ -224,10 +232,10 @@ const styles = StyleSheet.create({
     height: 80,
   },
   textContainer: {
-    justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 15,
     gap: 10,
+    marginTop: 20,
   },
   title: {
     fontFamily: "SFBold",
@@ -243,13 +251,13 @@ const styles = StyleSheet.create({
   amount: {
     color: Colors.primary50,
   },
-
   inputContainer: {
-    gap: 10,
+    gap: 7,
+    marginVertical: 15,
   },
   input: {
     width: "100%",
-    height: 50,
+    height: 60,
     borderWidth: 2,
     borderRadius: 15,
     borderColor: Colors.gray400,
@@ -276,8 +284,8 @@ const styles = StyleSheet.create({
   },
   alternativeLoginContainer: {
     flex: 1,
-    marginTop: 15,
-    gap: 20,
+    marginTop: 10,
+    gap: 10,
   },
   divider: {
     flexDirection: "row",
@@ -294,21 +302,24 @@ const styles = StyleSheet.create({
     color: Colors.gray600,
     fontSize: 12,
   },
+
   buttonContainer: {
     flexDirection: "row",
     gap: 16,
     width: "100%",
   },
+
   button: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    height: 60,
+    height: 50,
     borderRadius: 16,
     borderWidth: 2,
     borderColor: Colors.gray400,
   },
+
   buttonImage: {
     width: 20,
     height: 20,
@@ -316,7 +327,7 @@ const styles = StyleSheet.create({
   },
   link: {
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 5,
   },
   linkText: {
     color: Colors.gray800,
@@ -334,7 +345,7 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     backgroundColor: Colors.dot3,
     position: "absolute",
-    top: -20,
+    top: -15,
     left: -30,
   },
   dot2: {

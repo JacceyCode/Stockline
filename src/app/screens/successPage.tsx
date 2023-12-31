@@ -1,13 +1,11 @@
 import { Alert, Image, StyleSheet, Text, View } from "react-native";
-
-import Buttons from "../../components/Button";
 import { Colors } from "../../constants/colors";
 import { router, useLocalSearchParams } from "expo-router";
 import PressableButton from "../../components/PressableButton";
 
 const Verification = () => {
   const { name } = useLocalSearchParams();
-  const finalName = name?.toString().toUpperCase();
+  const finalName = name?.toString();
   return (
     <View style={styles.container}>
       <View style={styles.container2}>
@@ -40,7 +38,10 @@ const Verification = () => {
         <View style={styles.textContainer}>
           <View style={{ flexDirection: "row", alignItems: "center", gap: 5 }}>
             <Text style={styles.title}>
-              Hello {finalName ? finalName : "Tocky"}!
+              Hello{" "}
+              <Text style={styles.name}>
+                {finalName ? finalName : "Tocky"}!
+              </Text>
             </Text>
             <Image
               style={{ width: 20, height: 20, resizeMode: "cover" }}
@@ -61,14 +62,6 @@ const Verification = () => {
       </View>
 
       <View style={styles.buttonContainer}>
-        {/* <Buttons
-          title="I’m ready to start!"
-          path="successPage"
-          primary={false}
-          // onPress={() => {
-          //   Alert.alert(phoneNumber);
-          // }}
-        /> */}
         <PressableButton
           title="I’m ready to start!"
           onPress={() => {
@@ -141,6 +134,10 @@ const styles = StyleSheet.create({
     fontFamily: "SFBold",
     fontSize: 20,
     color: Colors.gray800,
+  },
+  name: {
+    color: Colors.primary50,
+    textTransform: "capitalize",
   },
   description: {
     textAlign: "center",
